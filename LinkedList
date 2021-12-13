@@ -1,0 +1,144 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define nline "\n"
+#define ll long long int
+
+class Node{
+public:
+   int data;
+   Node* next;
+   Node(int data){
+      this->data=data;
+      this->next=NULL;
+   }
+};
+
+Node* takeInput()
+{
+   int data;
+   cin>>data;
+   Node* head=NULL;
+   Node* tail=NULL;
+   while(data!=-1)
+   {
+      Node* newNode=new Node(data);
+      if(head==NULL)
+         {
+            head=newNode;
+            tail=newNode;
+         }
+      else
+      {
+         tail->next=newNode;
+         tail=tail->next;
+      }
+   cin>>data;
+   }
+   return head;
+}
+
+Node* insertNode(Node* head,int data,int i)
+{
+   Node* temp=head;
+   Node* newnode=new Node(data);
+   if(i==0)
+   {
+      newnode->next=head;
+      head=newnode;
+   }
+   else
+   {
+      for(int j=0;j<i-1;j++)
+      {
+         temp=temp->next;
+      }
+      newnode->next=temp->next;
+      temp->next=newnode;
+   }
+   return head;
+}
+
+Node* deleteNode(Node* head,int i)
+{
+   Node* temp=head;
+   if(i==0)
+   {
+      head=head->next;
+   }
+   else
+   {
+      for(int j=0;j<i-1;j++)
+      {
+         temp=temp->next;
+      }
+      temp->next=temp->next->next;  
+   }
+   return head;
+}
+
+Node* insertNodeRecursively(Node* head,int data,int i)
+{
+   Node* temp=head;
+   if(head==NULL) return NULL;
+   if(i==0)
+   {
+      Node* newnode=new Node(data);
+      newnode->next=head;
+      return newnode;
+   }
+   if(i==1)
+   {
+      Node* newnode=new Node(data);
+      newnode->next=head->next;
+      head->next=newnode;
+      return head;
+   }
+   temp=insertNodeRecursively(head->next,data,i-1);
+   head->next=temp;
+   return head;
+}
+
+Node* deleteNodeRecursively(Node* head,int i)
+{
+   Node* temp=head;
+   if(head==NULL) return NULL;
+   if(i==0)
+   {
+      head=head->next;
+      return head;
+   }
+   if(i==1)
+   {
+      head->next=head->next->next;
+      return head;
+   }
+   temp=deleteNodeRecursively(head->next,i-1);
+   head->next=temp;
+   return head;
+}
+
+void print(Node* head)
+{
+   Node* temp=head;
+   while(temp!=NULL)
+   {
+      cout<<temp->data<<"->";
+      temp=temp->next;
+   }
+   cout<<"NULL"<<endl;
+
+}
+
+int main(){ios_base::sync_with_stdio(false);cin.tie(NULL);
+   Node* head=NULL;
+   head=takeInput();
+   print(head);
+   head=insertNode(head,60,5);
+   print(head);
+   head=deleteNode(head,5);
+   print(head);
+   head=insertNodeRecursively(head,60,5);
+   print(head);
+   head=deleteNodeRecursively(head,5);
+   print(head);
+}
